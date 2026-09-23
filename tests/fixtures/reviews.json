@@ -1,0 +1,6 @@
+[
+  { "id": "fx-1", "product": "[점검용] 테스트 상품 A", "paidPrice": 12900, "savedAmount": 7100, "comment": "슬라이더 동작 점검용 데이터입니다. 배포되지 않습니다.", "writtenAt": "2026-09-20", "nickname": "점검1", "consent": true },
+  { "id": "fx-2", "product": "[점검용] 테스트 상품 B — 이름이 조금 긴 경우의 줄바꿈 확인", "paidPrice": 45000, "savedAmount": 18000, "comment": "긴 상품명과 두 줄 후기 레이아웃 확인용입니다. 배포되지 않습니다.", "writtenAt": "2026-09-18T21:30", "consent": true },
+  { "id": "fx-3", "product": "[점검용] 테스트 상품 C", "paidPrice": 3900, "savedAmount": 2100, "comment": "짧은 후기.", "writtenAt": "2026-09-15", "nickname": "점검3", "consent": true },
+  { "id": "fx-4", "product": "[점검용] 테스트 상품 D", "paidPrice": 219000, "savedAmount": 60000, "comment": "금액 자릿수 확인용.", "writtenAt": "2026-09-10", "consent": true }
+]

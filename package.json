@@ -1,0 +1,24 @@
+{
+  "name": "yisunsin-deal",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview --port 4321",
+    "check:config": "node scripts/check-config.mjs",
+    "og": "node scripts/generate-og.mjs",
+    "dev:fixtures": "node scripts/dev-fixtures.mjs",
+    "deploy": "node scripts/deploy-gh-pages.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.10",
+    "astro": "^7.3.4",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "sharp": "^0.35.4"
+  }
+}

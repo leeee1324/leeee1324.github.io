@@ -1,0 +1,65 @@
+---
+import Logo from './Logo.astro';
+import OpenChatButton from './OpenChatButton.astro';
+import { SITE_NAME, TAGLINE, href } from '../lib/site';
+const year = new Date().getFullYear();
+---
+<section class="footer-cta" aria-labelledby="footer-cta-title" data-sticky-anchor>
+  <div class="container footer-cta__inner">
+    <h2 id="footer-cta-title">봉화가 오르면 가장 먼저 알려드립니다</h2>
+    <p>카카오톡 오픈채팅방이라 가입 절차 없이 바로 들어오고, 원할 때 언제든 나갈 수 있어요.</p>
+    <OpenChatButton location="footer" />
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__brand">
+      <Logo size={28} />
+      <span>{SITE_NAME}</span>
+    </div>
+    <p class="site-footer__tagline">{TAGLINE}</p>
+    <nav aria-label="하단 메뉴">
+      <a href={href('/')}>홈</a>
+      <a href={href('/deals/')}>최근 출정</a>
+      <a href={href('/guide/')}>핫딜 가이드</a>
+      <a href={href('/principles/')}>운영 원칙·문의</a>
+    </nav>
+    <p class="site-footer__legal">
+      소개하는 가격은 확인 시점 기준이며 판매처 사정에 따라 언제든 바뀔 수 있습니다.
+      일부 링크는 제휴 링크일 수 있으며, 제휴·광고 여부는 딜마다 표시합니다.{' '}
+      <a href={href('/principles/#disclosure')}>표시 원칙 보기</a>
+    </p>
+    <p class="site-footer__copy">© {year} {SITE_NAME}</p>
+  </div>
+</footer>
+
+<style>
+  .footer-cta {
+    position: relative; overflow: hidden; color: #fff; text-align: center; padding-block: 56px;
+    background:
+      radial-gradient(70% 90% at 50% 0%, rgb(40 86 160 / 0.45), transparent 70%),
+      linear-gradient(180deg, var(--navy-850), var(--navy-900));
+  }
+  .footer-cta::before {
+    content: ''; position: absolute; left: 50%; top: 0; width: min(560px, 80%); height: 1px; transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.7;
+  }
+  .footer-cta__inner { max-width: 560px; }
+  .footer-cta h2 { font-family: var(--font-display); font-size: 1.45rem; letter-spacing: -0.04em; }
+  .footer-cta p { color: #b9c3d8; margin-bottom: 24px; font-size: 0.95rem; }
+  .site-footer { background: var(--ink-950); color: #8f9ab0; padding-block: 36px 40px; font-size: 0.86rem; border-top: 1px solid var(--navy-line); }
+  .site-footer__brand { display: flex; align-items: center; gap: 10px; color: #fff; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em; }
+  .site-footer__tagline { margin: 8px 0 18px; }
+  nav { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid rgb(255 255 255 / 0.08); }
+  nav a { display: inline-flex; min-height: 32px; align-items: center; color: #d5dbe7; text-decoration: none; }
+  nav a:hover { color: var(--gold-bright); }
+  .site-footer__legal { line-height: 1.7; color: #8490a8; }
+  .site-footer__legal a { color: #c9d0de; }
+  .site-footer__copy { margin: 0; color: #8490a8; }
+  :global(body.has-sticky-cta) .site-footer { padding-bottom: 110px; }
+  @media (min-width: 768px) {
+    .footer-cta { padding-block: 88px; }
+    .footer-cta h2 { font-size: 2rem; }
+  }
+</style>

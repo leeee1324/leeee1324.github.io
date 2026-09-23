@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import OpenChatButton from '../components/OpenChatButton.astro';
+import ReviewSlider from '../components/ReviewSlider.astro';
+import TierCards from '../components/TierCards.astro';
+import { Picture } from 'astro:assets';
+import heroEmblem from '../assets/hero-emblem.webp';
+import { SITE_NAME, TAGLINE, absoluteUrl, href } from '../lib/site';
+
+const description =
+  '카카오톡 핫딜 오픈채팅방 이순신의 할인대첩. 배송비까지 더한 실구매가를 확인한 핫딜만 골라 알려드립니다. 무료로 입장하고 봉화가 오르면 바로 받아보세요.';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    url: absoluteUrl('/'),
+    inLanguage: 'ko-KR',
+    description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: absoluteUrl('/'),
+    logo: absoluteUrl('/apple-touch-icon.png'),
+  },
+];
+
+const promises = [
+  { title: '배송비까지 더해서', body: '표시가가 아니라 배송비·필수 옵션을 더한 실구매가로 비교합니다.' },
+  { title: '확인한 시점을 함께', body: '가격은 금방 바뀝니다. 언제 확인한 가격인지 늘 같이 적습니다.' },
+  { title: '제휴·광고는 표시', body: '제휴 링크나 광고가 섞이면 딜마다 분명하게 표시합니다.' },
+];
+---
+<BaseLayout title={`${SITE_NAME} — 카카오톡 핫딜 오픈채팅방`} {description} ogImage="home.png" {jsonLd}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__art">
+        <Picture
+          src={heroEmblem}
+          formats={['avif', 'webp']}
+          widths={[240, 360, 480, 720, 960]}
+          sizes="(min-width: 768px) 460px, min(60vw, 260px)"
+          alt="칼을 들고 함대를 지휘하는 이순신 장군 일러스트 엠블럼"
+          loading="eager"
+          fetchpriority="high"
+          class="hero__img"
+        />
+      </div>
+      <div class="hero__copy">
+        <p class="eyebrow">카카오톡 핫딜 오픈채팅방</p>
+        <h1>{TAGLINE}</h1>
+        <p class="hero__sub">쏟아지는 할인 속에서 <strong>진짜 살 만한 딜</strong>만 추려 알려드려요.</p>
+        <div class="hero__cta" data-sticky-anchor>
+          <OpenChatButton location="hero" block />
+          <p class="hero__note"><span>무료</span><span>가입 없이 입장</span><span>언제든 나가기</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container reviews-wrap">
+    <ReviewSlider />
+  </div>
+
+  <section class="section" aria-labelledby="criteria-title">
+    <div class="container">
+      <p class="eyebrow">딜 선정 기준</p>
+      <h2 id="criteria-title" class="section-title">봉화는 두 가지로 올립니다</h2>
+      <p class="section-lead">채팅방 알림 머리말만 봐도 얼마나 좋은 조건인지 알 수 있게 나눴어요.</p>
+      <TierCards />
+      <p class="more"><a href={href('/principles/')}>선정 방식 자세히 보기</a></p>
+    </div>
+  </section>
+
+  <section class="section about" aria-labelledby="about-title">
+    <div class="container">
+      <p class="eyebrow">방 소개</p>
+      <h2 id="about-title" class="section-title">이런 방식으로 운영합니다</h2>
+      <ul class="promises">
+        {promises.map((p, i) => (
+          <li class="card">
+            <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section links" aria-labelledby="links-title">
+    <div class="container">
+      <h2 id="links-title" class="visually-hidden">더 둘러보기</h2>
+      <div class="link-grid">
+        <a class="link-card card" href={href('/deals/')}>
+          <strong>최근 출정</strong>
+          <span>채팅방에서 실제로 소개한 딜과 확인 시점</span>
+        </a>
+        <a class="link-card card" href={href('/guide/')}>
+          <strong>핫딜 가이드</strong>
+          <span>배송비 포함 가격 비교, 할인율 확인하는 법</span>
+        </a>
+        <a class="link-card card" href={href('/principles/')}>
+          <strong>운영 원칙</strong>
+          <span>선정 방식, 제휴·광고 표시, 문의 방법</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative; overflow: hidden; color: #fff; padding-block: 18px 32px;
+    background:
+      radial-gradient(60% 45% at 50% 22%, rgb(40 86 160 / 0.55), transparent 70%),
+      radial-gradient(120% 60% at 50% 0%, #0b2551 0%, var(--navy-900) 60%, var(--ink-950) 100%);
+    border-bottom: 1px solid var(--navy-line);
+  }
+  .hero::after {
+    /* 하단 금색 헤어라인 */
+    content: ''; position: absolute; left: 50%; bottom: 0; width: min(560px, 80%); height: 1px; transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.6;
+  }
+  .hero__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .hero__art { width: min(58vw, 250px); aspect-ratio: 1; margin-bottom: 14px; position: relative; }
+  .hero__art::before {
+    content: ''; position: absolute; inset: -12%; border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(217 180 108 / 0.22), transparent 72%);
+  }
+  .hero__art :global(img) {
+    position: relative; width: 100%; height: auto;
+    /* 정사각 이미지의 모서리 배경을 부드럽게 녹여 원형 엠블럼만 떠 보이게 */
+    -webkit-mask-image: radial-gradient(closest-side, #000 97.5%, transparent 100%);
+            mask-image: radial-gradient(closest-side, #000 97.5%, transparent 100%);
+    filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.35));
+  }
+  .hero .eyebrow { color: var(--gold); margin-bottom: 8px; }
+  .hero .eyebrow::after { content: ''; width: 20px; height: 1px; background: currentColor; opacity: 0.7; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; line-height: 1.32; letter-spacing: -0.045em;
+    margin-bottom: 8px; text-wrap: balance;
+  }
+  .hero__sub { color: #b9c3d8; margin-bottom: 18px; font-size: 0.95rem; }
+  .hero__sub strong { color: var(--gold-bright); font-weight: 600; }
+  .hero__cta { width: 100%; max-width: 420px; }
+  .hero__note { display: flex; justify-content: center; gap: 14px; font-size: 0.8rem; color: #93a0ba; margin: 12px 0 0; }
+  .hero__note span + span::before { content: '·'; margin-right: 14px; color: var(--gold); opacity: 0.7; }
+
+  .reviews-wrap { padding-top: 28px; }
+  .more { margin: 18px 0 0; font-weight: 600; font-size: 0.95rem; }
+
+  .about { background: var(--surface); border-block: 1px solid var(--line); }
+  .promises { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .promises li { padding: 20px 0; border-top: 1px solid var(--line); background: none; border-radius: 0; box-shadow: none; border-inline: 0; border-bottom: 0; display: grid; grid-template-columns: 44px 1fr; column-gap: 8px; }
+  .promises li:last-child { border-bottom: 1px solid var(--line); }
+  .promises h3 { font-size: 1.04rem; margin: 0 0 4px; grid-column: 2; }
+  .promises p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; grid-column: 2; }
+  .num { grid-row: span 2; font-family: var(--font-display); font-weight: 700; color: var(--gold-ink); font-size: 1.05rem; line-height: 1.5; }
+
+  .links { padding-top: 40px; }
+  .link-grid { display: grid; gap: 12px; }
+  .link-card { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 18px 44px 18px 20px; text-decoration: none; color: var(--ink); transition: border-color 0.15s, transform 0.15s; }
+  .link-card strong { font-size: 1.02rem; }
+  .link-card::after { content: '→'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--gold-ink); transition: transform 0.15s; }
+  .link-card span { color: var(--ink-soft); font-size: 0.9rem; }
+  .link-card:hover { border-color: var(--line-strong); color: var(--ink); }
+  .link-card:hover::after { transform: translate(3px, -50%); }
+
+  @media (min-width: 768px) {
+    .hero { padding-block: 56px 72px; }
+    .hero__inner { flex-direction: row-reverse; justify-content: space-between; gap: 48px; text-align: left; }
+    .hero__art { width: 460px; flex: none; margin: 0; }
+    .hero__copy { flex: 1; max-width: 540px; }
+    .hero h1 { font-size: 2.9rem; line-height: 1.25; }
+    .hero__sub { font-size: 1.1rem; margin-bottom: 28px; }
+    .hero__cta { max-width: 380px; }
+    .hero__note { justify-content: flex-start; }
+    .reviews-wrap { padding-top: 56px; }
+    .promises { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .promises li, .promises li:last-child { border-bottom: 0; grid-template-columns: 1fr; padding-top: 24px; border-top: 1px solid var(--line-strong); }
+    .promises h3, .promises p { grid-column: 1; }
+    .num { grid-row: auto; margin-bottom: 6px; }
+    .link-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  }
+</style>

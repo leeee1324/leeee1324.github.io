@@ -1,0 +1,67 @@
+---
+import { getCollection, render } from 'astro:content';
+import { existsSync } from 'node:fs';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import OpenChatButton from '../../components/OpenChatButton.astro';
+import { SITE_NAME, absoluteUrl, formatDate, href } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, publishedAt, updatedAt } = entry.data;
+
+// 글별 공유 이미지(public/og/guide-<slug>.png)가 있으면 사용, 없으면 가이드 공통 이미지
+const ogImage = entry.data.ogImage ?? (existsSync(`public/og/guide-${entry.id}.png`) ? `guide-${entry.id}.png` : 'guide.png');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: publishedAt.toISOString(),
+  dateModified: (updatedAt ?? publishedAt).toISOString(),
+  inLanguage: 'ko-KR',
+  mainEntityOfPage: absoluteUrl(`/guide/${entry.id}/`),
+  image: absoluteUrl(`/og/${ogImage}`),
+  author: { '@type': 'Organization', name: SITE_NAME },
+  publisher: { '@type': 'Organization', name: SITE_NAME },
+};
+---
+<BaseLayout {title} {description} {ogImage} ogType="article" {jsonLd}>
+  <article>
+    <header class="page-head">
+      <div class="container narrow">
+        <p class="eyebrow"><a href={href('/guide/')}>핫딜 가이드</a></p>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <p class="dates">
+          <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)} 작성</time>
+          {updatedAt && <> · <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)} 수정</time></>}
+        </p>
+      </div>
+    </header>
+    <div class="container narrow section prose">
+      <Content />
+    </div>
+  </article>
+  <aside class="container narrow inline-cta" aria-label="오픈채팅 안내">
+    <div class="card">
+      <p><strong>이렇게 확인한 딜만 채팅방에 올립니다.</strong><br />직접 비교하기 번거롭다면 봉화가 오를 때 받아보세요.</p>
+      <OpenChatButton location="guide-article" size="md" />
+    </div>
+  </aside>
+</BaseLayout>
+
+<style>
+  .page-head .eyebrow a { color: var(--gold); text-decoration: none; }
+  .dates { margin-top: 12px !important; font-size: 0.85rem; color: #a9b5cc !important; }
+  .section { padding-bottom: 8px; }
+  .inline-cta { padding-bottom: 48px; }
+  .inline-cta .card { padding: 20px; text-align: center; }
+  .inline-cta p { color: var(--ink-soft); }
+  .inline-cta strong { color: var(--ink); }
+</style>

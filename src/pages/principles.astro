@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TierCards from '../components/TierCards.astro';
+import OpenChatButton from '../components/OpenChatButton.astro';
+import { contactEmail, href } from '../lib/site';
+
+const description =
+  '이순신의 할인대첩이 딜을 고르는 방식, 제휴 링크·광고 표시 원칙, 가격 변동 안내, 후기 게시 기준과 문의 방법을 안내합니다.';
+
+const toc = [
+  { id: 'selection', label: '딜 선정 방식' },
+  { id: 'disclosure', label: '제휴 링크·광고 표시' },
+  { id: 'price', label: '가격 변동 안내' },
+  { id: 'reviews', label: '후기 게시 기준' },
+  { id: 'contact', label: '문의 방법' },
+];
+---
+<BaseLayout title="운영 원칙 — 딜 선정·제휴 표시·가격 변동·문의" {description} ogImage="principles.png">
+  <header class="page-head">
+    <div class="container narrow">
+      <p class="eyebrow">운영 원칙</p>
+      <h1>믿고 볼 수 있도록 지키는 원칙</h1>
+      <p>어떤 딜을 어떻게 고르고, 무엇을 표시하는지 숨김없이 적어 둡니다.</p>
+    </div>
+  </header>
+
+  <div class="container narrow section">
+    <nav class="toc card" aria-label="이 페이지의 목차">
+      <ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol>
+    </nav>
+
+    <div class="prose">
+      <h2 id="selection">딜 선정 방식</h2>
+      <p>채팅방에 올리기 전에 다음을 확인합니다.</p>
+      <ul>
+        <li><strong>배송비 포함 실구매가</strong> — 표시가가 아니라 배송비와 필수 옵션을 더한 금액으로 봅니다.</li>
+        <li><strong>평소 가격과 비교</strong> — 정가 대비 할인율보다, 그동안 실제로 팔리던 가격보다 낮은지를 봅니다.</li>
+        <li><strong>조건의 난이도</strong> — 특정 카드, 선착순 쿠폰, 회원 등급처럼 받기 어려운 조건은 알림에 함께 적습니다.</li>
+        <li><strong>판매처</strong> — 판매자 정보와 교환·환불 안내가 확인되는 곳인지 봅니다.</li>
+      </ul>
+      <p>확인을 거친 딜은 조건에 따라 두 등급으로 나누어 알립니다.</p>
+    </div>
+    <div class="tiers-wrap"><TierCards detailed headingLevel="h3" /></div>
+
+    <div class="prose">
+      <p>“최저가”라는 표현은 확인한 범위 안에서의 비교라는 뜻입니다. 모든 판매처·모든 시점의 최저가를 보장하지는 않습니다.</p>
+
+      <h2 id="disclosure">제휴 링크·광고 표시</h2>
+      <p>채팅방과 이 사이트의 일부 링크는 구매가 이루어지면 운영자가 수수료를 받는 <strong>제휴 링크</strong>일 수 있습니다. 제휴 링크를 쓰더라도 구매자가 내는 가격은 달라지지 않습니다.</p>
+      <ul>
+        <li>제휴 링크가 포함된 딜에는 <span class="badge badge--muted">제휴 링크</span> 표시를 붙입니다.</li>
+        <li>판매처나 브랜드에서 대가를 받고 소개하는 딜에는 <span class="badge badge--muted">광고</span> 표시를 붙입니다.</li>
+        <li>제휴·광고 여부가 딜 선정 기준을 바꾸지 않습니다. 기준에 맞지 않는 딜은 광고라도 “강력딜”로 소개하지 않습니다.</li>
+      </ul>
+
+      <h2 id="price">가격 변동 안내</h2>
+      <p>온라인 가격은 몇 분 사이에도 바뀝니다. 그래서 모든 딜에는 <strong>가격을 확인한 시점</strong>을 함께 적습니다.</p>
+      <ul>
+        <li>소개 이후 품절되거나 쿠폰이 소진되어 가격이 오를 수 있습니다.</li>
+        <li>사이트의 <a href={href('/deals/')}>최근 출정</a> 목록은 기록용이며, 현재 가격을 보장하지 않습니다.</li>
+        <li>구매 전 판매처에서 최종 결제 금액을 꼭 확인해 주세요.</li>
+      </ul>
+
+      <h2 id="reviews">후기 게시 기준</h2>
+      <ul>
+        <li>채팅방 참여자가 직접 남기고 <strong>사이트 게시에 동의한 후기</strong>만 싣습니다.</li>
+        <li>운영자가 후기를 대신 쓰거나 내용을 부풀리지 않습니다. 개인정보가 드러나는 부분만 가립니다.</li>
+        <li>게시된 후기의 삭제를 원하시면 아래 문의 방법으로 알려 주세요.</li>
+      </ul>
+
+      <h2 id="contact">문의 방법</h2>
+      <p>잘못된 가격 정보 제보, 후기 삭제 요청, 제휴 문의는 아래로 연락해 주세요.</p>
+      <ul>
+        <li>오픈채팅방 안에서 방장에게 메시지</li>
+        {contactEmail && <li>이메일: <a href={`mailto:${contactEmail}`}>{contactEmail}</a></li>}
+      </ul>
+    </div>
+
+    <div class="cta-box card">
+      <p>원칙에 공감하신다면 채팅방에서 만나요.</p>
+      <OpenChatButton location="principles" size="md" />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .toc { padding: 14px 18px; margin-bottom: 8px; box-shadow: none; }
+  .toc ol { margin: 0; padding-left: 1.2em; display: grid; gap: 2px; }
+  .toc a { display: inline-block; padding-block: 4px; }
+  .prose h2 { scroll-margin-top: 16px; }
+  .tiers-wrap { margin-bottom: 1.2em; }
+  .cta-box { margin-top: 32px; padding: 20px; text-align: center; }
+  .cta-box p { font-weight: 700; }
+</style>

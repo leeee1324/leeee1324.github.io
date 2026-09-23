@@ -1,0 +1,28 @@
+---
+import { TIERS } from '../lib/criteria';
+interface Props { detailed?: boolean; headingLevel?: 'h2' | 'h3' }
+const { detailed = false, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const tiers = [TIERS.bonghwa, TIERS.chuljeong];
+---
+<ul class="tiers">
+  {tiers.map((t) => (
+    <li class:list={['tier card', `tier--${t.key}`]}>
+      <span class:list={['badge', `badge--${t.key}`]}>{t.short}</span>
+      <H class="tier__name">{t.name}</H>
+      <p class="tier__summary">{t.summary}</p>
+      {detailed && <p class="tier__detail">{t.detail}</p>}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .tiers { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .tier { position: relative; overflow: hidden; padding: 22px 20px 20px; }
+  .tier::before { content: ''; position: absolute; left: 20px; right: 20px; top: 0; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+  .tier--chuljeong::before { background: linear-gradient(90deg, var(--red), transparent); }
+  .tier__name { font-family: var(--font-display); font-size: 1.18rem; letter-spacing: -0.04em; margin: 12px 0 2px; }
+  .tier__summary { margin: 0; color: var(--ink-soft); font-weight: 500; }
+  .tier__detail { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 0.93rem; color: var(--ink-soft); }
+  @media (min-width: 768px) { .tiers { grid-template-columns: 1fr 1fr; gap: 20px; } .tier { padding: 28px 28px 26px; } .tier::before { left: 28px; right: 28px; } .tier__name { font-size: 1.35rem; } }
+</style>

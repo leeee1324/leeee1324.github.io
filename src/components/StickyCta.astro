@@ -1,0 +1,64 @@
+---
+import OpenChatButton from './OpenChatButton.astro';
+import { openChatUrl } from '../lib/site';
+---
+{openChatUrl && (
+  <div class="sticky-cta" data-sticky-cta hidden>
+    <div class="sticky-cta__inner">
+      <OpenChatButton location="sticky" size="md" block />
+      <button type="button" class="sticky-cta__close" data-sticky-close aria-label="하단 입장 버튼 닫기">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+)}
+
+<style>
+  .sticky-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    padding: 8px var(--gutter) calc(8px + env(safe-area-inset-bottom));
+    background: rgb(5 12 28 / 0.9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--navy-line);
+    transform: translateY(0); transition: transform 0.2s ease;
+  }
+  .sticky-cta[hidden] { display: block; transform: translateY(110%); visibility: hidden; }
+  .sticky-cta__inner { display: flex; gap: 8px; align-items: center; max-width: 560px; margin-inline: auto; }
+  .sticky-cta__close {
+    flex: none; width: 44px; height: 44px; display: grid; place-items: center;
+    border-radius: 12px; border: 1px solid rgb(255 255 255 / 0.16); background: rgb(255 255 255 / 0.04); color: #cfd6e4; cursor: pointer;
+  }
+  .sticky-cta__close svg { width: 20px; height: 20px; }
+  .sticky-cta__close:hover { background: rgb(255 255 255 / 0.1); }
+  @media (min-width: 768px) { .sticky-cta { display: none !important; } }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
+  const KEY = 'yisunsin:sticky-closed';
+  let closed = false;
+  try { closed = sessionStorage.getItem(KEY) === '1'; } catch {}
+
+  if (bar && !closed) {
+    // 첫 화면 입장 버튼이나 하단 입장 영역이 보일 때는 숨겨서 중복·가림을 피합니다.
+    const anchors = document.querySelectorAll('[data-sticky-anchor]');
+    const visible = new Set<Element>();
+    const update = () => {
+      const show = !closed && visible.size === 0 && window.scrollY > 160;
+      bar.hidden = !show;
+      document.body.classList.toggle('has-sticky-cta', show);
+    };
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
+      update();
+    });
+    anchors.forEach((a) => io.observe(a));
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+
+    bar.querySelector('[data-sticky-close]')?.addEventListener('click', () => {
+      closed = true;
+      try { sessionStorage.setItem(KEY, '1'); } catch {}
+      update();
+    });
+  }
+</script>

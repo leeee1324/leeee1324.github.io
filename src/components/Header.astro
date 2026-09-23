@@ -1,0 +1,58 @@
+---
+import Logo from './Logo.astro';
+import { SITE_NAME, href } from '../lib/site';
+
+const nav = [
+  { path: '/deals/', label: '최근 출정' },
+  { path: '/guide/', label: '핫딜 가이드' },
+  { path: '/principles/', label: '운영 원칙' },
+];
+const current = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={href('/')} aria-label={`${SITE_NAME} 홈`}>
+      <Logo size={34} />
+      <span class="brand__name">{SITE_NAME}</span>
+    </a>
+    <nav aria-label="주요 메뉴">
+      <ul>
+        {nav.map((item) => {
+          const target = href(item.path);
+          const active = current.startsWith(target);
+          return (
+            <li>
+              <a href={target} aria-current={active ? 'page' : undefined}>{item.label}</a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: relative; z-index: 10; background: var(--ink-950); color: #fff; border-bottom: 1px solid var(--navy-line); }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 24px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; padding-block: 12px 8px; }
+  .brand:hover { color: #fff; }
+  .brand__name { font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; letter-spacing: -0.04em; }
+  nav { width: 100%; margin-inline: calc(var(--gutter) * -1); padding-inline: calc(var(--gutter) - 10px); overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  ul { display: flex; gap: 2px; list-style: none; margin: 0; padding: 0; }
+  nav a {
+    position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 0 10px;
+    color: #aeb8cc; text-decoration: none; font-size: 0.9rem; font-weight: 500; white-space: nowrap; letter-spacing: -0.01em;
+  }
+  nav a:hover { color: #fff; }
+  nav a[aria-current='page'] { color: var(--gold-bright); font-weight: 700; }
+  nav a[aria-current='page']::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 2px; background: var(--gold); border-radius: 2px 2px 0 0; }
+
+  @media (min-width: 768px) {
+    .bar { flex-wrap: nowrap; }
+    nav { width: auto; margin: 0; padding: 0; }
+    .brand { padding-block: 16px; }
+    nav a { min-height: 64px; padding: 0 14px; font-size: 0.94rem; }
+    nav a[aria-current='page']::after { left: 14px; right: 14px; }
+  }
+</style>

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "review-01",
+    "comment": "아침에 일어나면 여기부터 확인해요ㅋㅋ 중독성 미쳤어요 ㅋㅋ",
+    "order": 1,
+    "consent": true
+  },
+  {
+    "id": "review-02",
+    "comment": "방 이름부터 웃겼는데 출정 알림 뜨면 저도 모르게 들어가게 됨 ㅋㅋㅋㅋㅋㅋ",
+    "order": 2,
+    "consent": true
+  },
+  {
+    "id": "review-03",
+    "comment": "저희 가족들 맨날 생필품 여기서 찾고 있어요ㅎㅎ",
+    "order": 3,
+    "consent": true
+  },
+  {
+    "id": "review-04",
+    "comment": "생활용품 살 때 너무 좋아요. 어차피 살 거 저렴할 때 쟁여두니까요!",
+    "order": 4,
+    "consent": true
+  },
+  {
+    "id": "review-05",
+    "comment": "살까 말까 고민하던 거 딱 올라와서 바로 샀어요. 타이밍 대박ㅋㅋ",
+    "order": 5,
+    "consent": true
+  },
+  {
+    "id": "review-06",
+    "comment": "그냥 구경하려고 들어왔는데 어느새 매일 출석 중ㅋㅋㅋㅋ",
+    "order": 6,
+    "consent": true
+  },
+  {
+    "id": "review-07",
+    "comment": "핫딜방 이름 보고 웃겨서 들어왔는데 진짜 하루 종일 보게 됨",
+    "order": 7,
+    "consent": true
+  }
+]

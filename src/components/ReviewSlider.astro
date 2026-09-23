@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content';
+import { formatDate, formatWon } from '../lib/site';
+
+const reviews = (await getCollection('reviews'))
+  .map((r) => r.data)
+  .sort(
+    (a, b) =>
+      (a.order ?? Infinity) - (b.order ?? Infinity) || (b.writtenAt ?? '').localeCompare(a.writtenAt ?? ''),
+  );
+---
+<section class="reviews" aria-labelledby="reviews-title">
+  <h2 id="reviews-title">먼저 입장한 분들의 득템 후기</h2>
+
+  {reviews.length === 0 ? (
+    <div class="empty" data-reviews-empty>
+      <strong>실제 후기가 쌓이면 이곳에 소개됩니다</strong>
+      <p>입장하신 분들이 직접 남기고 게시에 동의한 후기만 싣습니다.</p>
+    </div>
+  ) : (
+    <div class="slider" data-slider aria-roledescription="carousel" aria-label="득템 후기">
+      <ul class="track" data-track tabindex="0" aria-label="후기 목록 (좌우로 밀어서 넘기기)">
+        {reviews.map((r, i) => (
+          <li class="slide" aria-roledescription="slide" aria-label={`${i + 1} / ${reviews.length}`}>
+            <figure class="review card">
+              <svg class="review__mark" viewBox="0 0 32 24" aria-hidden="true"><path d="M0 24V14C0 6 4 1.5 12 0l1.4 3.2C9 4.6 7 7.4 7 11h6v13H0Zm19 0V14c0-8 4-12.5 12-14l1 3.2C27.7 4.6 26 7.4 26 11h6v13H19Z" /></svg>
+              <blockquote class="review__comment"><p>{r.comment}</p></blockquote>
+              {(r.product || r.paidPrice !== undefined || r.savedAmount !== undefined) && (
+                <dl class="review__nums">
+                  {r.product && <div class="product"><dt>상품</dt><dd>{r.product}</dd></div>}
+                  {r.paidPrice !== undefined && <div><dt>실제 구매가</dt><dd>{formatWon(r.paidPrice)}</dd></div>}
+                  {r.savedAmount !== undefined && <div class="saved"><dt>절약한 금액</dt><dd>{formatWon(r.savedAmount)}</dd></div>}
+                </dl>
+              )}
+              <figcaption class="review__meta">
+                <span>{r.nickname ?? '오픈채팅방 참여자'}</span>
+                {r.writtenAt && <time datetime={r.writtenAt}>{formatDate(r.writtenAt)} 작성</time>}
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+  {reviews.length > 1 && (
+    <div class="reviews__controls">
+      <button type="button" class="ctl" data-prev aria-label="이전 후기">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      </button>
+      <div class="dots" aria-hidden="true">
+        {reviews.map(() => <span class="dot" />)}
+      </div>
+      <p class="visually-hidden" data-status aria-live="polite">1 / {reviews.length}</p>
+      <button type="button" class="ctl" data-toggle aria-label="자동 넘김 일시 정지" data-paused="false">
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12" /></svg>
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5Z" /></svg>
+      </button>
+      <button type="button" class="ctl" data-next aria-label="다음 후기">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+  )}
+</section>
+
+<style>
+  h2 { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 700; margin: 0 0 14px; color: var(--ink); letter-spacing: -0.02em; }
+  h2::before { content: ''; width: 6px; height: 6px; transform: rotate(45deg); background: var(--gold); }
+
+  .track {
+    list-style: none; margin: 0 calc(var(--gutter) * -1); padding: 4px var(--gutter) 10px;
+    display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: 12px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    overscroll-behavior-x: contain; scrollbar-width: none; scroll-padding-inline: var(--gutter);
+  }
+  .track::-webkit-scrollbar { display: none; }
+  .track:focus-visible { outline-offset: -2px; }
+  .slide { scroll-snap-align: start; display: flex; }
+  .review { margin: 0; padding: 20px 20px 18px; width: 100%; display: flex; flex-direction: column; }
+  .review__mark { width: 22px; height: 16px; fill: var(--gold); opacity: 0.85; margin-bottom: 10px; }
+  .review__comment { margin: 0 0 14px; flex: 1; }
+  .review__comment p { margin: 0; font-size: 1.02rem; line-height: 1.65; color: var(--ink); letter-spacing: -0.01em; }
+  .review__nums { display: grid; grid-template-columns: 1fr 1fr; margin: 0 0 12px; border-block: 1px solid var(--line); }
+  .review__nums div { padding: 10px 0; }
+  .review__nums div + div:not(.product) { padding-left: 14px; border-left: 1px solid var(--line); }
+  .review__nums .product { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+  .review__nums .product + div { padding-left: 0; border-left: 0; }
+  .review__nums dt { font-size: 0.74rem; color: var(--ink-mute); letter-spacing: 0.02em; }
+  .review__nums dd { margin: 0; font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .review__nums .product dd { font-size: 0.95rem; }
+  .review__nums .saved dd { color: var(--red-deep); }
+  .review__meta { display: flex; gap: 8px; align-items: center; padding-top: 12px; border-top: 1px solid var(--line); font-size: 0.8rem; color: var(--ink-soft); }
+  .review__nums + .review__meta { border-top: 0; padding-top: 0; }
+
+  .reviews__controls { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; }
+  .ctl {
+    width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; flex: none;
+    border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink);
+  }
+  .ctl:hover { border-color: var(--ink-soft); }
+  .ctl svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .ctl .i-play { fill: currentColor; stroke: none; }
+  .ctl .i-play, .ctl[data-paused='true'] .i-pause { display: none; }
+  .ctl[data-paused='true'] .i-play { display: block; }
+  .dots { display: flex; gap: 6px; padding-inline: 4px; }
+  .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--line-strong); transition: width 0.25s, background-color 0.25s; }
+  .dot.is-active { width: 18px; background: var(--gold-ink); }
+
+  @media (min-width: 768px) {
+    .track { grid-auto-columns: calc((100% - 32px) / 3); gap: 16px; margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
+    .review { padding: 24px 24px 20px; }
+  }
+</style>
+
+<script>
+  for (const slider of document.querySelectorAll<HTMLElement>('[data-slider]')) {
+    const section = slider.closest('section')!;
+    const track = slider.querySelector<HTMLElement>('[data-track]')!;
+    const slides = Array.from(track.children) as HTMLElement[];
+    const status = section.querySelector<HTMLElement>('[data-status]');
+    const dots = Array.from(section.querySelectorAll<HTMLElement>('.dot'));
+    const toggle = section.querySelector<HTMLButtonElement>('[data-toggle]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const INTERVAL = 4000;
+
+    let index = 0;
+    let userPaused = false; // 일시 정지 버튼으로만 바뀜
+    let holdPaused = false; // 터치·마우스·키보드 포커스 중 잠시 멈춤
+    let timer: number | undefined;
+
+    const current = () => {
+      const left = track.scrollLeft + slides[0].offsetLeft;
+      let best = 0;
+      slides.forEach((s, i) => {
+        if (Math.abs(s.offsetLeft - left) < Math.abs(slides[best].offsetLeft - left)) best = i;
+      });
+      return best;
+    };
+    const render = () => {
+      if (status) status.textContent = `${index + 1} / ${slides.length}`;
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+    };
+    const go = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      render();
+      // 움직임 줄이기 설정이면 부드러운 이동 없이 바로 전환
+      track.scrollTo({ left: slides[index].offsetLeft - slides[0].offsetLeft, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    const maxIndex = () => {
+      // 여러 장이 한 번에 보이는 넓은 화면에서는 마지막 "페이지"까지만 이동
+      const visible = Math.max(1, Math.round(track.clientWidth / slides[0].offsetWidth));
+      return Math.max(0, slides.length - visible);
+    };
+    const next = () => go(index >= maxIndex() ? 0 : index + 1);
+    const prev = () => go(index <= 0 ? maxIndex() : index - 1);
+
+    const schedule = () => {
+      window.clearInterval(timer);
+      if (!userPaused && !holdPaused && document.visibilityState === 'visible') timer = window.setInterval(next, INTERVAL);
+    };
+    const syncToggle = () => {
+      if (!toggle) return;
+      toggle.dataset.paused = String(userPaused);
+      toggle.setAttribute('aria-label', userPaused ? '자동 넘김 다시 시작' : '자동 넘김 일시 정지');
+    };
+
+    let scrollTick: number | undefined;
+    track.addEventListener('scroll', () => {
+      window.clearTimeout(scrollTick);
+      scrollTick = window.setTimeout(() => { index = current(); render(); }, 120);
+    }, { passive: true });
+
+    section.querySelector('[data-next]')?.addEventListener('click', () => { next(); schedule(); });
+    section.querySelector('[data-prev]')?.addEventListener('click', () => { prev(); schedule(); });
+    toggle?.addEventListener('click', () => { userPaused = !userPaused; syncToggle(); schedule(); });
+
+    const hold = (on: boolean) => () => { holdPaused = on; schedule(); };
+    track.addEventListener('mouseenter', hold(true));
+    track.addEventListener('mouseleave', hold(false));
+    track.addEventListener('touchstart', hold(true), { passive: true });
+    track.addEventListener('touchend', () => window.setTimeout(hold(false), 2500), { passive: true });
+    track.addEventListener('focusin', hold(true));
+    track.addEventListener('focusout', hold(false));
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+    });
+    document.addEventListener('visibilitychange', schedule);
+
+    render();
+    syncToggle();
+    schedule();
+  }
+</script>

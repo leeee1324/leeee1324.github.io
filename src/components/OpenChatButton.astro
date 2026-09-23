@@ -1,0 +1,49 @@
+---
+import { openChatUrl } from '../lib/site';
+
+interface Props {
+  /** 클릭 측정용 위치 이름 (hero, footer, sticky, header 등) */
+  location: string;
+  size?: 'lg' | 'md' | 'sm';
+  block?: boolean;
+  label?: string;
+}
+const { location, size = 'lg', block = false, label = '무료로 오픈채팅 입장하기' } = Astro.props;
+const cls = ['oc-btn', `oc-btn--${size}`, block && 'oc-btn--block'];
+---
+{openChatUrl ? (
+  <a class:list={cls} href={openChatUrl} target="_blank" rel="noopener" data-openchat={location}>
+    <svg class="oc-btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.8 5.3 4.6 6.7l-.9 3.4c-.1.3.3.6.6.4l4-2.6c.6.1 1.1.1 1.7.1 5.5 0 10-3.6 10-8S17.5 3 12 3Z"/></svg>
+    <span>{label}</span>
+    <span class="visually-hidden">(카카오톡 오픈채팅, 새 창)</span>
+  </a>
+) : (
+  <span class:list={[...cls, 'oc-btn--disabled']} aria-disabled="true" data-openchat-missing={location}>
+    입장 링크 준비 중
+  </span>
+)}
+
+<style>
+  .oc-btn {
+    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    color: #fff; font-weight: 700; text-decoration: none; letter-spacing: -0.015em; text-align: center;
+    background: linear-gradient(180deg, var(--red-bright) 0%, var(--red) 48%, var(--red-deep) 100%);
+    border-radius: 14px; border: 0; cursor: pointer;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.22),
+      inset 0 0 0 1px rgb(255 255 255 / 0.06),
+      0 10px 28px -10px rgb(196 42 51 / 0.65);
+    transition: filter 0.15s, transform 0.15s, box-shadow 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .oc-btn:hover { color: #fff; filter: brightness(1.06); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 14px 32px -10px rgb(196 42 51 / 0.75); }
+  .oc-btn:active { transform: translateY(1px); filter: brightness(0.97); }
+  .oc-btn:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+  .oc-btn--lg { min-height: 58px; padding: 0 28px; font-size: 1.08rem; }
+  .oc-btn--md { min-height: 50px; padding: 0 22px; font-size: 1rem; }
+  .oc-btn--sm { min-height: 40px; padding: 0 14px; font-size: 0.9rem; border-radius: 10px; }
+  .oc-btn--block { display: flex; width: 100%; }
+  .oc-btn__icon { width: 1.2em; height: 1.2em; flex: none; opacity: 0.95; }
+  .oc-btn--disabled { background: #5d6577; box-shadow: none; cursor: not-allowed; }
+  .oc-btn--disabled:hover { filter: none; }
+</style>

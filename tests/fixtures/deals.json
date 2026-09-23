@@ -1,0 +1,4 @@
+[
+  { "id": "fx-d1", "title": "[점검용] 테스트 딜 A", "tier": "chuljeong", "store": "테스트몰", "price": 19900, "shippingFee": 0, "listPrice": 39800, "checkedAt": "2026-09-22T09:10", "affiliate": true, "note": "레이아웃 점검용. 배포되지 않습니다." },
+  { "id": "fx-d2", "title": "[점검용] 테스트 딜 B", "tier": "bonghwa", "store": "테스트스토어", "price": 8900, "shippingFee": 3000, "checkedAt": "2026-09-21", "sponsored": true }
+]

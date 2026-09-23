@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { TIERS } from '../lib/criteria';
+import { formatDate, formatWon, href } from '../lib/site';
+
+const deals = (await getCollection('deals'))
+  .map((d) => d.data)
+  .sort((a, b) => b.checkedAt.localeCompare(a.checkedAt));
+
+const description =
+  '이순신의 할인대첩 오픈채팅방에서 실제로 소개한 핫딜 기록입니다. 배송비 포함 가격과 가격을 확인한 시점을 함께 적습니다. 가격은 바뀔 수 있습니다.';
+---
+<BaseLayout title="최근 출정 — 채팅방에서 소개한 핫딜 기록" {description} ogImage="deals.png">
+  <header class="page-head">
+    <div class="container">
+      <p class="eyebrow">최근 출정</p>
+      <h1>채팅방에서 실제로 소개한 딜</h1>
+      <p>오픈채팅방에 올린 딜만 기록합니다. 가격 옆의 확인 시점을 꼭 함께 봐 주세요.</p>
+    </div>
+  </header>
+
+  <div class="container section">
+    <div class="notice" role="note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <p><strong>가격은 변동될 수 있습니다.</strong> 아래 가격은 표시된 확인 시점의 가격이며, 지금은 품절되었거나 가격·쿠폰 조건이 달라졌을 수 있습니다. 구매 전 판매처에서 최종 가격을 꼭 확인하세요.</p>
+    </div>
+
+    {deals.length === 0 ? (
+      <div class="empty deals-empty">
+        <strong>아직 기록된 출정이 없습니다</strong>
+        <p>채팅방에서 딜을 소개하면 이곳에 가격과 확인 시점을 함께 남깁니다.</p>
+      </div>
+    ) : (
+      <ol class="deal-list">
+        {deals.map((d) => {
+          const tier = TIERS[d.tier];
+          const total = d.price + d.shippingFee;
+          const rate = d.listPrice && d.listPrice > d.price ? Math.round((1 - d.price / d.listPrice) * 100) : null;
+          return (
+            <li class="deal card">
+              <div class="deal__tags">
+                <span class:list={['badge', `badge--${d.tier}`]} title={tier.name}>{tier.short} · {tier.summary}</span>
+                {d.affiliate && <span class="badge badge--muted">제휴 링크</span>}
+                {d.sponsored && <span class="badge badge--muted">광고</span>}
+              </div>
+              <h2 class="deal__title">{d.title}</h2>
+              <p class="deal__store">{d.store}</p>
+              <dl class="deal__price">
+                <div>
+                  <dt>판매가</dt>
+                  <dd>
+                    {formatWon(d.price)}
+                    {rate !== null && <small class="rate">정가 {formatWon(d.listPrice!)} 대비 {rate}%↓</small>}
+                  </dd>
+                </div>
+                <div><dt>배송비</dt><dd>{d.shippingFee === 0 ? '무료' : formatWon(d.shippingFee)}</dd></div>
+                <div class="total"><dt>배송비 포함</dt><dd>{formatWon(total)}</dd></div>
+              </dl>
+              {d.note && <p class="deal__note">{d.note}</p>}
+              <div class="deal__foot">
+                <p class="deal__checked">확인 시점 <time datetime={d.checkedAt}>{formatDate(d.checkedAt)}</time></p>
+                {d.url && (
+                  <a
+                    class="deal__link"
+                    href={d.url}
+                    target="_blank"
+                    rel={d.affiliate || d.sponsored ? 'sponsored noopener' : 'nofollow noopener'}
+                  >
+                    판매처에서 현재 가격 확인<span class="visually-hidden"> (새 창)</span>
+                  </a>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    )}
+
+    <p class="foot-note">
+      정가 대비 할인율은 판매처가 표시한 정가 기준이라 실제 체감 할인과 다를 수 있어요.{' '}
+      <a href={href('/guide/')}>할인율 제대로 보는 법</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .notice { margin-bottom: 20px; }
+  .deal-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .deal { padding: 16px 18px; }
+  .deal__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .deal__title { font-size: 1.05rem; margin: 10px 0 2px; }
+  .deal__store { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 10px; }
+  .deal__price { display: grid; gap: 4px; margin: 0 0 10px; padding: 10px 12px; background: var(--paper); border-radius: 8px; }
+  .deal__price div { display: flex; justify-content: space-between; gap: 12px; font-size: 0.94rem; }
+  .deal__price dt { color: var(--ink-soft); }
+  .deal__price dd { margin: 0; text-align: right; font-weight: 600; }
+  .deal__price small { display: block; font-weight: 400; font-size: 0.8rem; color: var(--ink-soft); }
+  .deal__price .total { border-top: 1px solid var(--line); padding-top: 6px; margin-top: 2px; }
+  .deal__price .total dd { font-weight: 800; color: var(--red); font-size: 1.05rem; }
+  .deal__note { font-size: 0.92rem; margin-bottom: 8px; }
+  .deal__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+  .deal__checked { margin: 0; font-size: 0.85rem; color: var(--ink-soft); }
+  .deal__link { display: inline-flex; align-items: center; min-height: 40px; font-weight: 700; font-size: 0.92rem; }
+  .foot-note { margin-top: 20px; font-size: 0.88rem; color: var(--ink-soft); }
+  @media (min-width: 768px) { .deal-list { grid-template-columns: 1fr 1fr; gap: 16px; } }
+</style>

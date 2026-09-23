@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate, href } from '../../lib/site';
+
+const guides = (await getCollection('guides')).sort(
+  (a, b) => a.data.order - b.data.order || b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+const description =
+  '핫딜을 제대로 고르는 법. 배송비 포함 실구매가 비교, 부풀린 정가와 할인율 확인법, 쿠폰·카드 조건 읽는 법을 정리했습니다.';
+---
+<BaseLayout title="핫딜 가이드 — 실구매가와 할인율 제대로 보는 법" {description} ogImage="guide.png">
+  <header class="page-head">
+    <div class="container">
+      <p class="eyebrow">핫딜 가이드</p>
+      <h1>싸 보이는 가격 말고, 실제로 싼 가격</h1>
+      <p>딜을 볼 때마다 써먹을 수 있는 가격 확인법을 정리했습니다.</p>
+    </div>
+  </header>
+
+  <div class="container section">
+    {guides.length === 0 ? (
+      <div class="empty"><strong>준비 중인 글이 있습니다</strong><p>곧 첫 가이드를 올릴게요.</p></div>
+    ) : (
+      <ul class="guide-list">
+        {guides.map((g) => (
+          <li>
+            <a class="guide card" href={href(`/guide/${g.id}/`)}>
+              <h2>{g.data.title}</h2>
+              <p>{g.data.description}</p>
+              <span class="guide__date">
+                {g.data.updatedAt ? `${formatDate(g.data.updatedAt)} 수정` : `${formatDate(g.data.publishedAt)} 작성`}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .guide { display: block; padding: 18px 20px; text-decoration: none; color: var(--ink); height: 100%; }
+  .guide:hover { border-color: var(--navy-700); color: var(--ink); }
+  .guide h2 { font-size: 1.1rem; margin-bottom: 6px; }
+  .guide p { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 10px; }
+  .guide__date { font-size: 0.82rem; color: var(--ink-soft); }
+  @media (min-width: 768px) { .guide-list { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+</style>
