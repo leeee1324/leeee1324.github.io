@@ -4,8 +4,8 @@
 
 ## 배포 주소
 
-- **https://leeee1324.github.io/yisunsin-deal/**
-- 저장소: https://github.com/leeee1324/yisunsin-deal (빌드 결과는 `gh-pages` 브랜치에서 서비스)
+- **https://leeee1324.github.io/**
+- 저장소: https://github.com/leeee1324/leeee1324.github.io (빌드 결과는 `gh-pages` 브랜치에서 서비스)
 
 ### 다시 배포하기 (지금 방식)
 
@@ -66,7 +66,6 @@ GitHub Actions 파일을 올리려면 로그인 토큰에 `workflow` 권한이 �
 4. 요청 → **사이트맵 제출**에 `sitemap.xml`을 입력합니다 (예: `https://도메인/sitemap.xml`).
 5. 검증 → **robots.txt** 확인, 요청 → **웹 페이지 수집**에 홈 주소를 입력합니다.
 
-> `github.io/저장소` 형태의 주소에서는 도메인 최상위의 robots.txt를 이 사이트가 관리할 수 없습니다. 네이버 검색 노출을 제대로 하려면 개인 도메인 연결을 권장합니다.
 
 ## 클릭 측정
 

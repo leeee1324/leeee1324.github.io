@@ -17,7 +17,7 @@ export const contactEmail: string = config.contactEmail;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-/** 사이트 내부 경로에 base 를 붙입니다. href('/deals/') → '/yisunsin-deal/deals/' */
+/** 사이트 내부 경로에 base 를 붙입니다. href('/deals/') → '/<base>/deals/' (base 가 없으면 '/deals/') */
 export const href = (path: string) => `${base}${path.startsWith('/') ? path : `/${path}`}`;
 
 /** 절대 URL (canonical, og:image 용) */

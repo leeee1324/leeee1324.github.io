@@ -12,9 +12,9 @@ export default {
   /**
    * 사이트 전체 주소. canonical, sitemap, 공유 이미지 주소가 모두 이 값을 기준으로 만들어집니다.
    * - 개인 도메인: 'https://example.co.kr'
-   * - GitHub Pages 기본 주소: 'https://<계정>.github.io/<저장소>'
+   * - GitHub Pages 기본 주소: 'https://<계정>.github.io'
    */
-  siteUrl: 'https://leeee1324.github.io/yisunsin-deal',
+  siteUrl: 'https://leeee1324.github.io',
 
   /** 네이버 서치어드바이저 > 사이트 소유확인 > HTML 태그의 content 값 */
   naverSiteVerification: '',
