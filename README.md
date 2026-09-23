@@ -4,9 +4,24 @@
 
 ## 배포 주소
 
-- 배포 주소: https://leeee1324.github.io/yisunsin-deal/ (`site.config.mjs`의 `siteUrl`)
-- `main` 브랜치에 push하면 GitHub Actions가 빌드하고 배포합니다.
-- **`openChatUrl`이 비어 있으면 배포가 멈춥니다.** 가짜 링크가 공개되지 않게 막아 둔 것입니다.
+- **https://leeee1324.github.io/yisunsin-deal/**
+- 저장소: https://github.com/leeee1324/yisunsin-deal (빌드 결과는 `gh-pages` 브랜치에서 서비스)
+
+### 다시 배포하기 (지금 방식)
+
+내용을 수정한 뒤 아래 명령 하나로 확인 → 빌드 → `gh-pages` 브랜치 반영까지 진행됩니다. **`openChatUrl`이 비어 있으면 배포가 멈춥니다.** 가짜 링크가 공개되지 않게 막아 둔 것입니다.
+
+```bash
+npm run deploy
+```
+
+### (선택) push만 하면 자동 배포되게 바꾸기
+
+GitHub Actions 파일을 올리려면 로그인 토큰에 `workflow` 권한이 필요합니다.
+
+1. `gh auth refresh -h github.com -s workflow` 실행 후 브라우저에서 **leeee1324** 계정으로 승인
+2. `deploy/github-pages-workflow.yml`을 `.github/workflows/deploy.yml`로 옮기고 push
+3. 저장소 Settings → Pages → Source를 **GitHub Actions**로 변경
 
 ## 설정 바꾸기: `site.config.mjs` 한 곳
 
@@ -41,7 +56,7 @@
 - 히어로 이미지는 `src/assets/hero-emblem.webp`입니다. 같은 이름으로 바꿔 넣으면 빌드할 때 자동으로 AVIF/WebP 여러 크기로 최적화됩니다.
 - 딜 등급 문구는 `src/lib/criteria.ts`에서 고칩니다.
 
-GitHub 웹에서 파일을 직접 수정하고 커밋해도 자동으로 다시 배포됩니다.
+수정한 뒤 `npm run deploy`로 배포하세요. (자동 배포를 켰다면 GitHub 웹에서 파일을 고치고 커밋해도 다시 배포됩니다.)
 
 ## 네이버 서치어드바이저 등록 순서
 
