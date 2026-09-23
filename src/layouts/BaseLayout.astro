@@ -21,9 +21,6 @@ const { title, description, ogImage = 'home.png', ogType = 'website', jsonLd, no
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImageUrl = absoluteUrl(`/og/${ogImage}`);
 const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
-const serifHref = `https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap${
-  import.meta.env.DEV ? '' : '&text=__SERIF_TEXT__'
-}`;
 ---
 <!doctype html>
 <html lang="ko">
@@ -36,11 +33,6 @@ const serifHref = `https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@7
     {noindex && <meta name="robots" content="noindex" />}
     {naverSiteVerification && <meta name="naver-site-verification" content={naverSiteVerification} />}
     <meta name="theme-color" content="#081a3a" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- 제목용 명조: 빌드 시 페이지의 제목 글자만 담은 서브셋으로 바뀝니다 (scripts/serif-subset.mjs) -->
-    <link rel="stylesheet" href={serifHref} media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href={serifHref} /></noscript>
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
     <link rel="sitemap" href={href('/sitemap.xml')} />

@@ -141,25 +141,25 @@ const promises = [
   .hero .eyebrow { color: var(--gold); margin-bottom: 8px; }
   .hero .eyebrow::after { content: ''; width: 20px; height: 1px; background: currentColor; opacity: 0.7; }
   .hero h1 {
-    font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; line-height: 1.32; letter-spacing: -0.045em;
+    font-weight: var(--fw-black); font-size: var(--fs-display); line-height: 1.3; letter-spacing: -0.045em;
     margin-bottom: 8px; text-wrap: balance;
   }
   .hero__sub { color: #b9c3d8; margin-bottom: 18px; font-size: 0.95rem; }
-  .hero__sub strong { color: var(--gold-bright); font-weight: 600; }
+  .hero__sub strong { color: var(--gold-bright); font-weight: var(--fw-semi); }
   .hero__cta { width: 100%; max-width: 420px; }
   .hero__note { display: flex; justify-content: center; gap: 14px; font-size: 0.8rem; color: #93a0ba; margin: 12px 0 0; }
   .hero__note span + span::before { content: '·'; margin-right: 14px; color: var(--gold); opacity: 0.7; }
 
   .reviews-wrap { padding-top: 28px; }
-  .more { margin: 18px 0 0; font-weight: 600; font-size: 0.95rem; }
+  .more { margin: 18px 0 0; font-weight: var(--fw-semi); font-size: 0.95rem; }
 
   .about { background: var(--surface); border-block: 1px solid var(--line); }
   .promises { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
   .promises li { padding: 20px 0; border-top: 1px solid var(--line); background: none; border-radius: 0; box-shadow: none; border-inline: 0; border-bottom: 0; display: grid; grid-template-columns: 44px 1fr; column-gap: 8px; }
   .promises li:last-child { border-bottom: 1px solid var(--line); }
-  .promises h3 { font-size: 1.04rem; margin: 0 0 4px; grid-column: 2; }
+  .promises h3 { font-size: var(--fs-h3); margin: 0 0 4px; grid-column: 2; }
   .promises p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; grid-column: 2; }
-  .num { grid-row: span 2; font-family: var(--font-display); font-weight: 700; color: var(--gold-ink); font-size: 1.05rem; line-height: 1.5; }
+  .num { grid-row: span 2; font-weight: var(--fw-black); color: var(--gold-ink); font-size: var(--fs-body); line-height: 1.5; font-variant-numeric: tabular-nums; }
 
   .links { padding-top: 40px; }
   .link-grid { display: grid; gap: 12px; }
@@ -175,7 +175,7 @@ const promises = [
     .hero__inner { flex-direction: row-reverse; justify-content: space-between; gap: 48px; text-align: left; }
     .hero__art { width: 460px; flex: none; margin: 0; }
     .hero__copy { flex: 1; max-width: 540px; }
-    .hero h1 { font-size: 2.9rem; line-height: 1.25; }
+    .hero h1 { line-height: 1.24; }
     .hero__sub { font-size: 1.1rem; margin-bottom: 28px; }
     .hero__cta { max-width: 380px; }
     .hero__note { justify-content: flex-start; }

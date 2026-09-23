@@ -63,7 +63,7 @@ const reviews = (await getCollection('reviews'))
 </section>
 
 <style>
-  h2 { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 700; margin: 0 0 14px; color: var(--ink); letter-spacing: -0.02em; }
+  h2 { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: var(--fw-bold); margin: 0 0 14px; color: var(--ink); letter-spacing: -0.02em; }
   h2::before { content: ''; width: 6px; height: 6px; transform: rotate(45deg); background: var(--gold); }
 
   .track {
@@ -85,7 +85,7 @@ const reviews = (await getCollection('reviews'))
   .review__nums .product { grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
   .review__nums .product + div { padding-left: 0; border-left: 0; }
   .review__nums dt { font-size: 0.74rem; color: var(--ink-mute); letter-spacing: 0.02em; }
-  .review__nums dd { margin: 0; font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .review__nums dd { margin: 0; font-weight: var(--fw-bold); font-size: 1.05rem; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
   .review__nums .product dd { font-size: 0.95rem; }
   .review__nums .saved dd { color: var(--red-deep); }
   .review__meta { display: flex; gap: 8px; align-items: center; padding-top: 12px; border-top: 1px solid var(--line); font-size: 0.8rem; color: var(--ink-soft); }

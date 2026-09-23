@@ -32,7 +32,6 @@ const LOGO = `
   <path d="M17.6 33.8h12.8l1.6 5.4H16l1.6-5.4Z" fill="#c9a55a" fill-opacity=".75"/>`;
 
 const FONT = "'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif";
-const SERIF = "'Noto Serif KR','Nanum Myeongjo','Batang',serif";
 
 function card({ kicker, title, sub, art }) {
   const lines = wrap(title, art ? 8 : 16).slice(0, 3);
@@ -48,9 +47,9 @@ function card({ kicker, title, sub, art }) {
   <rect width="1200" height="630" fill="url(#glow)"/>
   <rect x="0" y="628" width="1200" height="2" fill="url(#rule)"/>
   <g transform="translate(80 70) scale(1.5)">${LOGO}</g>
-  <text x="170" y="122" font-family="${SERIF}" font-size="36" font-weight="700" fill="#ffffff">이순신의 할인대첩</text>
+  <text x="170" y="122" font-family="${FONT}" font-size="36" font-weight="700" fill="#ffffff">이순신의 할인대첩</text>
   <text x="80" y="${startY - size - 22}" font-family="${FONT}" font-size="28" font-weight="700" letter-spacing="3" fill="#d9b46c">${esc(kicker)}</text>
-  ${lines.map((l, i) => `<text x="80" y="${startY + i * size * 1.2}" font-family="${SERIF}" font-size="${size}" font-weight="900" fill="#ffffff">${esc(l)}</text>`).join('\n  ')}
+  ${lines.map((l, i) => `<text x="80" y="${startY + i * size * 1.2}" font-family="${FONT}" font-size="${size}" font-weight="700" fill="#ffffff">${esc(l)}</text>`).join('\n  ')}
   <text x="80" y="540" font-family="${FONT}" font-size="30" fill="#b9c3d8">${esc(sub)}</text>
 </svg>`;
 }

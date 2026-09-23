@@ -36,16 +36,16 @@ const current = Astro.url.pathname;
   .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 24px; }
   .brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; padding-block: 12px 8px; }
   .brand:hover { color: #fff; }
-  .brand__name { font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; letter-spacing: -0.04em; }
+  .brand__name { font-weight: var(--fw-black); font-size: 1.1rem; letter-spacing: -0.04em; }
   nav { width: 100%; margin-inline: calc(var(--gutter) * -1); padding-inline: calc(var(--gutter) - 10px); overflow-x: auto; scrollbar-width: none; }
   nav::-webkit-scrollbar { display: none; }
   ul { display: flex; gap: 2px; list-style: none; margin: 0; padding: 0; }
   nav a {
     position: relative; display: inline-flex; align-items: center; min-height: 40px; padding: 0 10px;
-    color: #aeb8cc; text-decoration: none; font-size: 0.9rem; font-weight: 500; white-space: nowrap; letter-spacing: -0.01em;
+    color: #aeb8cc; text-decoration: none; font-size: 0.9rem; font-weight: var(--fw-semi); white-space: nowrap; letter-spacing: -0.01em;
   }
   nav a:hover { color: #fff; }
-  nav a[aria-current='page'] { color: var(--gold-bright); font-weight: 700; }
+  nav a[aria-current='page'] { color: var(--gold-bright); font-weight: var(--fw-bold); }
   nav a[aria-current='page']::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 2px; background: var(--gold); border-radius: 2px 2px 0 0; }
 
   @media (min-width: 768px) {

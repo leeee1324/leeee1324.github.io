@@ -46,10 +46,10 @@ const year = new Date().getFullYear();
     background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.7;
   }
   .footer-cta__inner { max-width: 560px; }
-  .footer-cta h2 { font-family: var(--font-display); font-size: 1.45rem; letter-spacing: -0.04em; }
+  .footer-cta h2 { font-size: var(--fs-h2); font-weight: var(--fw-black); letter-spacing: -0.04em; }
   .footer-cta p { color: #b9c3d8; margin-bottom: 24px; font-size: 0.95rem; }
   .site-footer { background: var(--ink-950); color: #8f9ab0; padding-block: 36px 40px; font-size: 0.86rem; border-top: 1px solid var(--navy-line); }
-  .site-footer__brand { display: flex; align-items: center; gap: 10px; color: #fff; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.03em; }
+  .site-footer__brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: var(--fw-black); letter-spacing: -0.03em; }
   .site-footer__tagline { margin: 8px 0 18px; }
   nav { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid rgb(255 255 255 / 0.08); }
   nav a { display: inline-flex; min-height: 32px; align-items: center; color: #d5dbe7; text-decoration: none; }
@@ -60,6 +60,5 @@ const year = new Date().getFullYear();
   :global(body.has-sticky-cta) .site-footer { padding-bottom: 110px; }
   @media (min-width: 768px) {
     .footer-cta { padding-block: 88px; }
-    .footer-cta h2 { font-size: 2rem; }
   }
 </style>
