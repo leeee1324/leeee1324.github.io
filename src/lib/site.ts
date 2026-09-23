@@ -1,7 +1,8 @@
 import config from '../../site.config.mjs';
 
 export const SITE_NAME = '이순신의 할인대첩';
-export const TAGLINE = '살 만한 핫딜만 골라 봉화를 울립니다';
+export const TAGLINE = '이곳은 아무 할인이나 핫딜이라고 부르지 않습니다.';
+export const TAGLINE_SUB = '가격을 비교하고, 살 만한 가격이 왔을 때만 출정합니다.';
 
 const OPEN_CHAT_PATTERN = /^https:\/\/open\.kakao\.com\/o\/[A-Za-z0-9]+$/;
 

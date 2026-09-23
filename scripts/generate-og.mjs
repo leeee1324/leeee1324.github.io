@@ -34,8 +34,8 @@ const LOGO = `
 const FONT = "'Malgun Gothic','Apple SD Gothic Neo','Noto Sans KR',sans-serif";
 
 function card({ kicker, title, sub, art }) {
-  const lines = wrap(title, art ? 8 : 16).slice(0, 3);
-  const size = lines.length > 2 ? 64 : 76;
+  const lines = wrap(title, art ? 10 : 16).slice(0, 3);
+  const size = art ? 54 : lines.length > 2 ? 64 : 76;
   const startY = 330 - ((lines.length - 1) * size * 1.2) / 2;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
@@ -55,7 +55,7 @@ function card({ kicker, title, sub, art }) {
 }
 
 const pages = [
-  { file: 'home.png', kicker: '카카오톡 핫딜 오픈채팅방', title: '살 만한 핫딜만 골라 봉화를 울립니다', sub: '무료로 입장하고 먼저 받아보세요', art: true },
+  { file: 'home.png', kicker: '카카오톡 핫딜 오픈채팅방', title: '이곳은 아무 할인이나 핫딜이라고 부르지 않습니다.', sub: '살 만한 가격이 왔을 때만 출정합니다', art: true },
   { file: 'deals.png', kicker: '최근 출정', title: '채팅방에서 실제로 소개한 딜', sub: '가격은 확인 시점 기준이며 바뀔 수 있습니다' },
   { file: 'guide.png', kicker: '핫딜 가이드', title: '싸 보이는 가격 말고, 실제로 싼 가격', sub: '배송비 포함 비교 · 할인율 확인법' },
   { file: 'principles.png', kicker: '운영 원칙', title: '믿고 볼 수 있도록 지키는 원칙', sub: '딜 선정 · 제휴 표시 · 가격 변동 · 문의' },

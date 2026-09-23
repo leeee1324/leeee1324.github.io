@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import OpenChatButton from './OpenChatButton.astro';
-import { SITE_NAME, TAGLINE, href } from '../lib/site';
+import { SITE_NAME, TAGLINE_SUB, href } from '../lib/site';
 const year = new Date().getFullYear();
 ---
 <section class="footer-cta" aria-labelledby="footer-cta-title" data-sticky-anchor>
@@ -18,7 +18,7 @@ const year = new Date().getFullYear();
       <Logo size={28} />
       <span>{SITE_NAME}</span>
     </div>
-    <p class="site-footer__tagline">{TAGLINE}</p>
+    <p class="site-footer__tagline">{TAGLINE_SUB}</p>
     <nav aria-label="하단 메뉴">
       <a href={href('/')}>홈</a>
       <a href={href('/deals/')}>최근 출정</a>
