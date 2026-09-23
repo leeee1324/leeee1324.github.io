@@ -17,7 +17,7 @@ export default {
   siteUrl: 'https://leeee1324.github.io',
 
   /** 네이버 서치어드바이저 > 사이트 소유확인 > HTML 태그의 content 값 */
-  naverSiteVerification: '',
+  naverSiteVerification: 'adb8ec7692afa514efce71ed1854f8de8293124d',
 
   /** (선택) Google Analytics 4 측정 ID. 입장 버튼 클릭 수를 이벤트로 집계합니다. 예: 'G-XXXXXXXXXX' */
   ga4MeasurementId: '',
